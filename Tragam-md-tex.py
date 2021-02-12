@@ -5,8 +5,16 @@ import os
 title = input("Filename:")
 language = input("Need to use Chinese?(y/n)")
 fileFrom = open(title+'.md')
-fileTo = open(title+".tex","x")
-
+try:
+    fileTo = open(title+".tex","x")
+except:
+    exist = input(title+".tex 文件已存在！是否覆盖？(y/n)")
+    if exist == "y":
+        os.remove(title+".tex")
+        fileTo = open(title+".tex","x")
+    else:
+        os.exit_()
+    
 # 撰写文件头
 fileTo.write("\\documentclass{article}\n")
 if language == 'y':
@@ -17,7 +25,7 @@ num1 = 0
 for num in range(0,count):
     get = lines[num]
     if get[0:2] == "# " :
-        num1 += num1
+        num1 += 1
         num2 = num
         get = get.replace("# ","")
         get = get.rstrip()
